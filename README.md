@@ -15,14 +15,18 @@
 5. Создать файл .env и заполнить его по примеру .env.example
 6. В файле settings.py в директиве ALLOWED_HOSTS прописать адрес сервера
 7. Выполнить:
+
     7.1 ~/drfsite/python manage.py makemigrations
         ~/drfsite/python manage.py migrate
     7.2 Создайте административного пользователя проекта с помощью следующей команды:
         ~/drfsite/manage.py createsuperuser
+        
 8. Настроить gunicorn:
+
     8.1 Скопировать файл /drfsite/config/gunicorn.socket в папку /etc/systemd/system/
     8.2 Скопировать файл /drfsite/config/gunicorn.service в папку /etc/systemd/system/
     8.3 Выполнить:
+
         8.3.1 sudo systemctl start gunicorn.socket
         8.3.2  sudo systemctl enable gunicorn.socket
         8.3.3 sudo systemctl status gunicorn
