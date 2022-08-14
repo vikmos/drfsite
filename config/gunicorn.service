@@ -1,0 +1,17 @@
+[Unit]
+Description=gunicorn daemon
+Requires=gunicorn.socket
+After=network.target
+
+[Service]
+User=vikmos
+Group=www-data
+WorkingDirectory=/home/vikmos/drfsite
+ExecStart=/home/vikmos/drfsite/env/bin/gunicorn \
+	--access-logfile - \
+	--workers 3 \
+	--bind unix:/run/gunicorn.sock \
+	drfsite.wsgi:application
+
+[Install]
+WantedBy=multi-user.target

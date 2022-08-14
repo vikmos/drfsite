@@ -4,16 +4,16 @@ from django.contrib.auth.models import PermissionsMixin, AbstractBaseUser, BaseU
 
 # Create your models here.
 class CustomAccauntManager(BaseUserManager):
-    def _create_user(self, username, password, is_staff, **extra_fields):
+    def _create_user(self, username, password, **extra_fields):
         if not username:
             raise ValueError("Вы не ввели Логин")
-        user = self.model(username=username, is_staff=is_staff, **extra_fields,)
+        user = self.model(username=username, **extra_fields,)
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_user(self, username, password, is_staff):
-        return self._create_user(username, password, is_staff)
+    def create_user(self, username, password):
+        return self._create_user(username, password)
 
     def create_superuser(self, username, password):
         return self._create_user(username, password, is_staff=True, is_superuser=True)
@@ -25,7 +25,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['is_staff']
 
     objects = CustomAccauntManager()
     

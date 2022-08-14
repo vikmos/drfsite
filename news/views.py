@@ -48,3 +48,4 @@ class CommentsAPIRetrieve(generics.RetrieveUpdateDestroyAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentsSerializer
     permission_classes = (IsOwnerOrReadOnly, )
+
