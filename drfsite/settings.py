@@ -30,9 +30,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = env('SECRET') #'django-insecure-0q8somnk!ejvkhbzv#nt3ru-lfl!q+cy2jtj0^q3yfv+inktd0'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -87,7 +87,7 @@ WSGI_APPLICATION = 'drfsite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': env('DBENGINE'),
         'NAME': env('DBNAME'),
         'USER': env('DBUSER'),
         'PASSWORD': env('DBPASSWORD'),
