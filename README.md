@@ -15,29 +15,26 @@
 5. Создать файл .env и заполнить его по примеру .env.example
 6. В файле settings.py в директиве ALLOWED_HOSTS прописать адрес сервера
 7. Выполнить:
-
-    7.1 ~/drfsite/python manage.py makemigrations
+    1. ~/drfsite/python manage.py makemigrations
         ~/drfsite/python manage.py migrate
-    7.2 Создайте административного пользователя проекта с помощью следующей команды:
+    2. Создайте административного пользователя проекта с помощью следующей команды:
         ~/drfsite/manage.py createsuperuser
-        
+
 8. Настроить gunicorn:
-
-    8.1 Скопировать файл /drfsite/config/gunicorn.socket в папку /etc/systemd/system/
-    8.2 Скопировать файл /drfsite/config/gunicorn.service в папку /etc/systemd/system/
-    8.3 Выполнить:
-
-        8.3.1 sudo systemctl start gunicorn.socket
-        8.3.2  sudo systemctl enable gunicorn.socket
-        8.3.3 sudo systemctl status gunicorn
+    1. Скопировать файл /drfsite/config/gunicorn.socket в папку /etc/systemd/system/
+    2. Скопировать файл /drfsite/config/gunicorn.service в папку /etc/systemd/system/
+    3. Выполнить:
+        1. sudo systemctl start gunicorn.socket
+        2.  sudo systemctl enable gunicorn.socket
+        3. sudo systemctl status gunicorn
 9. Настроить Nginx для Gunicorn:
-    9.1 Скопировать файл /drfsite/config/drfsite в папку /etc/nginx/site-available/
-    9.2 Выполнить:
-        9.2.1 sudo ln -s /etc/nginx/sites-available/drfsite /etc/nginx/sites-enabled
-        9.2.2 sudo nginx -t
-        9.2.3 sudo systemctl restart nginx
-        9.2.4 sudo ufw delete allow 8000
-        9.2.5 sudo ufw allow 'Nginx Full'
+    1. Скопировать файл /drfsite/config/drfsite в папку /etc/nginx/site-available/
+    2. Выполнить:
+        1. sudo ln -s /etc/nginx/sites-available/drfsite /etc/nginx/sites-enabled
+        2. sudo nginx -t
+        3. sudo systemctl restart nginx
+        4. sudo ufw delete allow 8000
+        5. sudo ufw allow 'Nginx Full'
 Настройка окончена, сервер запущен.
 
 ##### Работа с сервером
@@ -49,39 +46,39 @@
 Изменять и удалять новость может либо автор, либо администратор.
 
 ##### Роуты
-**Регистрация новых пользователей:**
-    **Веб-интрефейс** - http://51.250.51.137/api/v1/registr/
-    **Djoser-токен** - ```curl -X POST http://51.250.51.137/api/v1/auth/users/ --data 'username=djoser&password=djoser'```
+- **Регистрация новых пользователей:**
+    - **Веб-интрефейс** - http://51.250.51.137/api/v1/registr/
+    - **Djoser-токен** - ```curl -X POST http://51.250.51.137/api/v1/auth/users/ --data 'username=djoser&password=djoser'```
 
-**Аутентификация пользователей:**
-    **Веб-интрефейс** - http://51.250.51.137/api/v1/api-auth/login/
-    **Djoser-токен** - ```curl -X POST http://51.250.51.137/api/v1/auth/token/login/ --data 'username=djoser&password=djoser'``` - для получения токена
-    **Djoser-токен** - ```curl -X GET http://51.250.51.137/api/v1/auth/users/me/ -H 'Authorization: Token <token>'```
-    **JWT-токен** - ```curl -X POST -H "Content-Type: application/json" -d '{"username": "davidattenborough", "password": "boatymcboatface"}' http://51.250.51.137/api/v1/token/``` - для получения токена
-    **JWT-токен** - ```curl -H "Authorization: JWT <access-token>" http://51.250.51.137/api/v1/news/```
+- **Аутентификация пользователей:**
+    - **Веб-интрефейс** - http://51.250.51.137/api/v1/api-auth/login/
+    - **Djoser-токен** - ```curl -X POST http://51.250.51.137/api/v1/auth/token/login/ --data 'username=djoser&password=djoser'``` - для получения токена
+    - **Djoser-токен** - ```curl -X GET http://51.250.51.137/api/v1/auth/users/me/ -H 'Authorization: Token <token>'```
+    - **JWT-токен** - ```curl -X POST -H "Content-Type: application/json" -d '{"username": "davidattenborough", "password": "boatymcboatface"}' http://51.250.51.137/api/v1/token/``` - для получения токена
+    - **JWT-токен** - ```curl -H "Authorization: JWT <access-token>" http://51.250.51.137/api/v1/news/```
     
-**Отключение от сервера**
-    **Веб-интерфейс** - http://51.250.51.137/api/v1/api-auth/logout/
-    **Djoser-токен** - ```curl -X POST http://51.250.51.137/api/v1/auth/token/logout/ -H 'Authorization: Token <token>'```
+- **Отключение от сервера**
+    - **Веб-интерфейс** - http://51.250.51.137/api/v1/api-auth/logout/
+    - **Djoser-токен** - ```curl -X POST http://51.250.51.137/api/v1/auth/token/logout/ -H 'Authorization: Token <token>'```
     
-**Просмотр всех новостей**
-    **Веб-интерфейс** - http://51.250.51.137/api/v1/news/
-    **Djoser-токен** -``` curl -X POST http://51.250.51.137/api/v1/news/ -H 'Authorization: Token <token>'```
-    **JWT-токен** - ```curl -H "Authorization: JWT <access-token>" http://51.250.51.137/api/v1/news/```
+- **Просмотр всех новостей**
+    - **Веб-интерфейс** - http://51.250.51.137/api/v1/news/
+    - **Djoser-токен** -``` curl -X POST http://51.250.51.137/api/v1/news/ -H 'Authorization: Token <token>'```
+    - **JWT-токен** - ```curl -H "Authorization: JWT <access-token>" http://51.250.51.137/api/v1/news/```
 
-**Просмотр конкретной новости**
-    **Веб-интерфейс** - ```http://51.250.51.137/api/v1/news/<ID новости>/```
-    **Djoser-токен** - ```curl -X POST http://51.250.51.137/api/v1/news/<ID новости>/ -H 'Authorization: Token <token>'```
-    **JWT-токен** - ```curl -H "Authorization: JWT <access-token>" http://51.250.51.137/api/v1/news/<ID новости>/```
+- **Просмотр конкретной новости**
+    - **Веб-интерфейс** - ```http://51.250.51.137/api/v1/news/<ID новости>/```
+    - **Djoser-токен** - ```curl -X POST http://51.250.51.137/api/v1/news/<ID новости>/ -H 'Authorization: Token <token>'```
+    - **JWT-токен** - ```curl -H "Authorization: JWT <access-token>" http://51.250.51.137/api/v1/news/<ID новости>/```
     
-**Добавление новости**
-    **Djoser-токен** - ```curl -d '{"title":"some_title", "text":"some_text"}' -H "Content-Type: application/json" -H "Authorization: Token <token>" -X POST http://51.250.51.137/api/v1/news/```
-    **JWT-токен** - ```curl -d '{"title":"some_title", "text":"some_text"}' -H "Content-Type: application/json" -H "Authorization: JWT <token>" -X POST http://51.250.51.137/api/v1/news/```
+- **Добавление новости**
+    - **Djoser-токен** - ```curl -d '{"title":"some_title", "text":"some_text"}' -H "Content-Type: application/json" -H "Authorization: Token <token>" -X POST http://51.250.51.137/api/v1/news/```
+    - **JWT-токен** - ```curl -d '{"title":"some_title", "text":"some_text"}' -H "Content-Type: application/json" -H "Authorization: JWT <token>" -X POST http://51.250.51.137/api/v1/news/```
     
-**Изменение новости**
-    **Djoser-токен** - ```curl -d '{"title":"some_title", "text":"some_text"}' -H "Content-Type: application/json" -H "Authorization: Token <token>" -X PUT http://51.250.51.137/api/v1/news/<ID-новости>/```
-    **JWT-токен** - ```curl -d '{"title":"some_title", "text":"some_text"}' -H "Content-Type: application/json" -H "Authorization: JWT <token>" -X PUT http://51.250.51.137/api/v1/news/<ID-новости>/```
+- **Изменение новости**
+    - **Djoser-токен** - ```curl -d '{"title":"some_title", "text":"some_text"}' -H "Content-Type: application/json" -H "Authorization: Token <token>" -X PUT http://51.250.51.137/api/v1/news/<ID-новости>/```
+    - **JWT-токен** - ```curl -d '{"title":"some_title", "text":"some_text"}' -H "Content-Type: application/json" -H "Authorization: JWT <token>" -X PUT http://51.250.51.137/api/v1/news/<ID-новости>/```
     
-**Удаление новости**
-    **Djoser-токен** - ```curl -H "Authorization: Token <token>" -X DELETE http://51.250.51.137/api/v1/news/<ID-новости>/```
-    **JWT-токен** - ```curl -H "Authorization: JWT <token>" -X DELETE http://51.250.51.137/api/v1/news/<ID-новости>/```
+- **Удаление новости**
+    - **Djoser-токен** - ```curl -H "Authorization: Token <token>" -X DELETE http://51.250.51.137/api/v1/news/<ID-новости>/```
+    - **JWT-токен** - ```curl -H "Authorization: JWT <token>" -X DELETE http://51.250.51.137/api/v1/news/<ID-новости>/```
